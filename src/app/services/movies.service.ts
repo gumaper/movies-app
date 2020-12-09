@@ -1,12 +1,32 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Query } from '@angular/core';
 import { environment } from './../../environments/environment';
+
+const URL = environment.url;
+const apiKey = environment.apiKey;
 
 @Injectable({
   providedIn: 'root',
 })
 export class MoviesService {
+  private page = 0;
+
   constructor(private http: HttpClient) {}
+
+  private queries<T>(query: string) {
+    query = URL + query;
+    query += `&api_key=${apiKey}`;
+
+    return this.http.get<T>(query);
+  }
+
+  getFeatures() {
+    this.page++;
+
+    const query = `/discover/movie?sort_by=popularity.desc&page=${this.page}`;
+
+    return this.queries<ResultMDB>(query);
+  }
 
   getMovies() {
     const today = new Date();
@@ -20,8 +40,8 @@ export class MoviesService {
     const initial = `${today.getFullYear()}-${mesString}-01`;
     const final = `${today.getFullYear()}-${mesString}-${lastDay}`;
 
-    return this.http.get<ResultMDB>(
-      `${environment.url}/discover/movie?primary_release_date.gte=${initial}&primary_release_date.lte=${final}&api_key=${environment.apiKey}`
+    return this.queries<ResultMDB>(
+      `/discover/movie?primary_release_date.gte=${initial}&primary_release_date.lte=${final}`
     );
   }
 }

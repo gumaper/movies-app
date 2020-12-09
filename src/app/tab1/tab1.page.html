@@ -18,4 +18,14 @@
   </ion-grid>
 
   <app-slideshow-poster [movies]="movies"></app-slideshow-poster>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h3>Populares</h3>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <app-slideshow-pares [movies]="features" (loadMoreMovies)="loadMore()"></app-slideshow-pares>
 </ion-content>
