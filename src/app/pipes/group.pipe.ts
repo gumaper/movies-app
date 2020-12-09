@@ -12,7 +12,6 @@ export class GroupPipe implements PipeTransform {
       return result;
     }, []);
 
-    console.log(items);
     return items;
   }
 }

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Query } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Actor, MovieDetails, ResultMDB } from '../models/movie';
 import { environment } from './../../environments/environment';
 
 const URL = environment.url;
@@ -43,5 +44,13 @@ export class MoviesService {
     return this.queries<ResultMDB>(
       `/discover/movie?primary_release_date.gte=${initial}&primary_release_date.lte=${final}`
     );
+  }
+
+  getDetails(id: string) {
+    return this.queries<MovieDetails>(`/movie/${id}?a=1`);
+  }
+
+  getActors(id: string) {
+    return this.queries<Actor>(`/movie/${id}/credits?a=1`);
   }
 }
