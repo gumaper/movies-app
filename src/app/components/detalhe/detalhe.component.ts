@@ -15,6 +15,7 @@ export class DetalheComponent implements OnInit {
   movie: MovieDetails = {};
   actors: Cast[] = [];
   overview: number = 150;
+  existe: boolean;
 
   slideOpts = {
     slidesPerView: 3.3,
@@ -28,7 +29,9 @@ export class DetalheComponent implements OnInit {
     private dataLocal: DataLocalService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.existe = await this.dataLocal.existeFilme(this.id);
+
     this.movieService.getDetails(this.id).subscribe(res => (this.movie = res));
 
     this.movieService.getActors(this.id).subscribe(res => (this.actors = res.cast));
@@ -39,6 +42,7 @@ export class DetalheComponent implements OnInit {
   }
 
   favorito() {
+    this.existe = !this.existe;
     this.dataLocal.favoritarFilme(this.movie);
   }
 }

@@ -10,7 +10,9 @@ import { MovieDetails } from '../models/movie';
 export class DataLocalService {
   filmes: MovieDetails[] = [];
 
-  constructor(private storage: Storage, private toastController: ToastController) {}
+  constructor(private storage: Storage, private toastController: ToastController) {
+    this.carregarFavoritos();
+  }
 
   favoritarFilme(filme: MovieDetails) {
     let existe = false;
@@ -42,5 +44,18 @@ export class DataLocalService {
     });
 
     toast.present();
+  }
+
+  async carregarFavoritos() {
+    const filmes = await this.storage.get('filmes');
+    this.filmes = filmes || [];
+    return this.filmes;
+  }
+
+  async existeFilme(id) {
+    await this.carregarFavoritos();
+    const existe = this.filmes.find(film => film.id === id);
+
+    return existe ? true : false;
   }
 }

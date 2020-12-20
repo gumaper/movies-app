@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actor, MovieDetails, ResultMDB } from '../models/movie';
+import { Observable } from 'rxjs';
+import { Actor, Genre, MovieDetails, ResultMDB } from '../models/movie';
 import { environment } from './../../environments/environment';
 
 const URL = environment.url;
@@ -56,5 +57,9 @@ export class MoviesService {
 
   buscarFilmes(texto: string) {
     return this.queries(`/search/movie?query=${texto}`);
+  }
+
+  carregarGeneros(): Observable<Genre[]> {
+    return this.queries(`/genre/movie/list?a=1`);
   }
 }
