@@ -53,4 +53,8 @@ export class MoviesService {
   getActors(id: string) {
     return this.queries<Actor>(`/movie/${id}/credits?a=1`);
   }
+
+  buscarFilmes(texto: string) {
+    return this.queries(`/search/movie?query=${texto}`);
+  }
 }

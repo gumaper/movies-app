@@ -30,7 +30,7 @@ export class SlideshowParesComponent implements OnInit {
       },
     });
 
-    modal.present();
+    6;
   }
 
   loadMore() {

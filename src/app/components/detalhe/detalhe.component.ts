@@ -1,3 +1,4 @@
+import { DataLocalService } from './../../services/data-local.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Actor, Cast, MovieDetails } from '../../models/movie';
@@ -21,7 +22,11 @@ export class DetalheComponent implements OnInit {
     spacebetween: -5,
   };
 
-  constructor(private movieService: MoviesService, private modalController: ModalController) {}
+  constructor(
+    private movieService: MoviesService,
+    private modalController: ModalController,
+    private dataLocal: DataLocalService
+  ) {}
 
   ngOnInit() {
     this.movieService.getDetails(this.id).subscribe(res => (this.movie = res));
@@ -31,5 +36,9 @@ export class DetalheComponent implements OnInit {
 
   voltar() {
     this.modalController.dismiss();
+  }
+
+  favorito() {
+    this.dataLocal.favoritarFilme(this.movie);
   }
 }
